@@ -1,24 +1,24 @@
 #include<iostream>
 #include<fstream>
 #include<cmath>
-#include <sstream>
-#include <string>
+#include<sstream>
+#include<string>
 
 using namespace std;
 
-struct vehiculos{
+struct vehiculos {
     string modelo, marca, placa, color,motor, fecha_de_entrega;
     int ano, kilometraje, precio_renta, ced_cliente;
     bool rentado;
 };
 
-struct clientes{
+struct clientes {
     int cedula, cantidad_de_vehiculos;
     string nombre, apellido, email, direccion;
     bool activo;
 };
 
-struct repuestos{
+struct repuestos {
     string modelo, marca, nombre, modelo_carro;
     int ano_carro, precio, existencias;
 };
@@ -745,8 +745,192 @@ void confirmar_accion(){
 
 }
 
-int main(){
+void mostrarVehiculo(const vehiculos& vehiculo) {
+    cout << "Modelo: " << vehiculo.modelo << ", Marca: " << vehiculo.marca << ", Placa: " << vehiculo.placa
+         << ", Color: " << vehiculo.color << ", Año: " << vehiculo.ano << ", Precio de renta: " << vehiculo.precio_renta << "\n";
+}
 
+void mostrarCliente(const clientes& cliente) {
+    cout << "Cédula: " << cliente.cedula << ", Nombre: " << cliente.nombre << ", Apellido: " << cliente.apellido
+         << ", Email: " << cliente.email << ", Dirección: " << cliente.direccion << "\n";
+}
+
+void mostrarRepuesto(const repuestos& repuesto) {
+    cout << "Nombre: " << repuesto.nombre << ", Modelo: " << repuesto.modelo << ", Año del carro: " << repuesto.ano_carro
+         << ", Precio: " << repuesto.precio << ", Existencias: " << repuesto.existencias << "\n";
+}
+
+void leerCSVVehiculos(const string& nombreArchivo, vehiculos vehiculosArr[], int& totalVehiculos, int maxVehiculos) {
+    ifstream archivo(nombreArchivo);
+    string linea;
+
+    totalVehiculos = 0;
+    do {
+        if (getline(archivo, linea)) {
+            stringstream sstream(linea);
+            vehiculos& vehiculo = vehiculosArr[totalVehiculos];
+            string temp;
+
+            getline(sstream, vehiculo.modelo, ',');
+            getline(sstream, vehiculo.marca, ',');
+            getline(sstream, vehiculo.placa, ',');
+            getline(sstream, vehiculo.color, ',');
+            getline(sstream, vehiculo.motor, ',');
+            getline(sstream, vehiculo.fecha_de_entrega, ',');
+
+            getline(sstream, temp, ',');
+            vehiculo.ano = stoi(temp);
+
+            getline(sstream, temp, ',');
+            vehiculo.kilometraje = stoi(temp);
+
+            getline(sstream, temp, ',');
+            vehiculo.precio_renta = stoi(temp);
+
+            getline(sstream, temp, ',');
+            vehiculo.ced_cliente = stoi(temp);
+
+            getline(sstream, temp, ',');
+            vehiculo.rentado = (temp == "1");
+
+            totalVehiculos++;
+        }
+    } while (archivo && totalVehiculos < maxVehiculos);
+}
+
+void leerCSVClientes(const string& nombreArchivo, clientes clientesArr[], int& totalClientes, int maxClientes) {
+    ifstream archivo(nombreArchivo);
+    string linea;
+
+    totalClientes = 0;
+    do {
+        if (getline(archivo, linea)) {
+            stringstream sstream(linea);
+            clientes& cliente = clientesArr[totalClientes];
+            string temp;
+
+            getline(sstream, temp, ',');
+            cliente.cedula = stoi(temp);
+
+            getline(sstream, cliente.nombre, ',');
+            getline(sstream, cliente.apellido, ',');
+            getline(sstream, cliente.email, ',');
+            getline(sstream, cliente.direccion, ',');
+
+            getline(sstream, temp, ',');
+            cliente.cantidad_de_vehiculos = stoi(temp);
+
+            getline(sstream, temp, ',');
+            cliente.activo = (temp == "1");
+
+            totalClientes++;
+        }
+    } while (archivo && totalClientes < maxClientes);
+}
+
+void leerCSVRepuestos(const string& nombreArchivo, repuestos repuestosArr[], int& totalRepuestos, int maxRepuestos) {
+    ifstream archivo(nombreArchivo);
+    string linea;
+
+    totalRepuestos = 0;
+    do {
+        if (getline(archivo, linea)) {
+            stringstream sstream(linea);
+            repuestos& repuesto = repuestosArr[totalRepuestos];
+            string temp;
+
+            getline(sstream, repuesto.modelo, ',');
+            getline(sstream, repuesto.marca, ',');
+            getline(sstream, repuesto.nombre, ',');
+            getline(sstream, repuesto.modelo_carro, ',');
+
+            getline(sstream, temp, ',');
+            repuesto.ano_carro = stoi(temp);
+
+            getline(sstream, temp, ',');
+            repuesto.precio = stoi(temp);
+
+            getline(sstream, temp, ',');
+            repuesto.existencias = stoi(temp);
+
+            totalRepuestos++;
+        }
+    } while (archivo && totalRepuestos < maxRepuestos);
+}
+
+void realizarConsultas(vehiculos vehiculosArr[], int totalVehiculos, clientes clientesArr[], int totalClientes, repuestos repuestosArr[], int totalRepuestos) {
+    int opcion;
+    do {
+        cout << "\n--- Menú de Consultas ---\n";
+        cout << "1. Consultar Vehículo\n";
+        cout << "2. Consultar Cliente\n";
+        cout << "3. Consultar Repuesto\n";
+        cout << "4. Regresar al Menú Principal\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1: {
+                string placaBuscada;
+                cout << "Ingrese la placa del vehículo: ";
+                cin >> placaBuscada;
+                bool encontrado = false;
+                for (int i = 0; i < totalVehiculos; i++) {
+                    if (vehiculosArr[i].placa == placaBuscada) {
+                        mostrarVehiculo(vehiculosArr[i]);
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    cout << "Vehículo no encontrado.\n";
+                }
+                break;
+            }
+            case 2: {
+                int cedulaBuscada;
+                cout << "Ingrese la cédula del cliente: ";
+                cin >> cedulaBuscada;
+                bool encontrado = false;
+                for (int i = 0; i < totalClientes; i++) {
+                    if (clientesArr[i].cedula == cedulaBuscada) {
+                        mostrarCliente(clientesArr[i]);
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    cout << "Cliente no encontrado.\n";
+                }
+                break;
+            }
+            case 3: {
+                string nombreRepuestoBuscado;
+                cout << "Ingrese el nombre del repuesto: ";
+                cin >> nombreRepuestoBuscado;
+                bool encontrado = false;
+                for (int i = 0; i < totalRepuestos; i++) {
+                    if (repuestosArr[i].nombre == nombreRepuestoBuscado) {
+                        mostrarRepuesto(repuestosArr[i]);
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    cout << "Repuesto no encontrado.\n";
+                }
+                break;
+            }
+            case 4:
+                cout << "Regresando al menú principal...\n";
+                break;
+
+            default:
+                cout << "Opción no válida.\n";
+        }
+    } while (opcion != 4);
+}
+int main(){
     int Archivos_csv, indice, campo;
     string nuevo_valor;
     bool opcion_valida = false;
@@ -1033,6 +1217,19 @@ int main(){
             break;
         }
     }
+    const int MAX_VEHICULOS = 100;
+    const int MAX_CLIENTES = 100;
+    const int MAX_REPUESTOS = 100;
+    vehiculos vehiculosArr[MAX_VEHICULOS];
+    clientes clientesArr[MAX_CLIENTES];
+    repuestos repuestosArr[MAX_REPUESTOS];
+    int totalVehiculos, totalClientes, totalRepuestos;
+
+    leerCSVVehiculos("bin/vehiculos.csv", vehiculosArr, totalVehiculos, MAX_VEHICULOS);
+    leerCSVClientes("bin/clientes.csv", clientesArr, totalClientes, MAX_CLIENTES);
+    leerCSVRepuestos("bin/repuestos.csv", repuestosArr, totalRepuestos, MAX_REPUESTOS);
+
+    realizarConsultas(vehiculosArr, totalVehiculos, clientesArr, totalClientes, repuestosArr, totalRepuestos);
 
     return 0;
 }
