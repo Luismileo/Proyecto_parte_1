@@ -930,6 +930,296 @@ void realizarConsultas(vehiculos vehiculosArr[], int totalVehiculos, clientes cl
         }
     } while (opcion != 4);
 }
+
+
+int main() {
+int Archivos_csv, indice, campo;
+    string nuevo_valor;
+    bool opcion_valida = false;
+
+    while(!opcion_valida){
+        mostrarMenuPrincipal();
+        cin >> Archivos_csv;
+
+        switch(Archivos_csv){
+            case 1:
+                opcion_valida = true;
+                int opcion_vehiculo;
+                mostrarMenuVehiculos();
+                cin >> opcion_vehiculo;
+                // Manejar opciones de vehiculos
+
+                switch(opcion_vehiculo){
+                    case 1: {
+                        cout << "Ingrese el indice de la fila que desea eliminar: ";
+                        cin >> indice;
+                        borrar_fila_vehiculos(indice);
+                        break;
+                    }
+
+                      case 2: {
+                        vehiculos nuevo_vehiculo;
+                        string rentado_str;
+
+                        cout << "Ingrese la fila del vehiculo que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese los datos nuevos del vehiculo a modificar: \n";
+                        cout << "Ingrese modelo: "; cin >> nuevo_vehiculo.modelo;
+                        cout << "Ingrese marca: "; cin >> nuevo_vehiculo.marca;
+                        cout << "Ingrese placa: "; cin >> nuevo_vehiculo.placa;
+                        cout << "Ingrese color: "; cin >> nuevo_vehiculo.color;
+                        cout << "Ingrese ano: "; cin >> nuevo_vehiculo.ano;
+                        cout << "Ingrese kilometraje: "; cin >> nuevo_vehiculo.kilometraje;
+                        cout << "Ingrese rentado (si/no): "; cin >> rentado_str;
+                        nuevo_vehiculo.rentado = (rentado_str == "si");
+                        cout << "Ingrese motor: "; cin >> nuevo_vehiculo.motor;
+                        cout << "Ingrese precio de renta: "; cin >> nuevo_vehiculo.precio_renta;
+                        cout << "Ingrese cedula del cliente: "; cin >> nuevo_vehiculo.ced_cliente;
+                        cin.ignore(); 
+                        cout << "Ingrese fecha de entrega (d/m/yyyy): "; getline(cin, nuevo_vehiculo.fecha_de_entrega);
+
+                        actualizar_fila_completa_vehiculos(indice, nuevo_vehiculo);
+                        break;
+                    }
+
+                    case 3: {
+                        cout << "Ingrese la fila del vehiculo que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese el numero del campo que quiere modificar (1-11): \n";
+                        cout << "1. Modelo\n";
+                        cout << "2. Marca\n";
+                        cout << "3. Placa\n";
+                        cout << "4. Color\n";
+                        cout << "5. Año\n";
+                        cout << "6. Kilometraje\n";
+                        cout << "7. Rentado (si/no)\n";
+                        cout << "8. Motor\n";
+                        cout << "9. Precio de Renta\n";
+                        cout << "10. Cédula del Cliente\n";
+                        cout << "11. Fecha de Entrega\n";
+                        cout << "Ingrese valor: "; cin >> campo;
+                        cout << "Ingrese el dato actualizado: "; cin >> nuevo_valor;
+                        actualizar_dato_especifico_vehiculos(indice, campo, nuevo_valor);
+                        break;
+                    }
+                    
+                    case 4: {
+                        vehiculos nuevo_vehiculo;
+                        string rentado_str;
+                        cout << "Ingrese los datos del nuevo vehiculo: \n";
+                        cout << "Ingrese modelo: "; cin >> nuevo_vehiculo.modelo; 
+                        cout << "Ingrese marca: "; cin >> nuevo_vehiculo.marca; 
+                        cout << "Ingrese placa: "; cin >> nuevo_vehiculo.placa; 
+                        cout << "Ingrese color: "; cin >> nuevo_vehiculo.color; 
+                        cout << "Ingrese ano (ej:1999): "; cin >> nuevo_vehiculo.ano; 
+                        cout << "Ingrese kilometraje: "; cin >> nuevo_vehiculo.kilometraje; 
+                        cout << "Ingrese rentado (si/no): "; cin >> rentado_str;
+                        nuevo_vehiculo.rentado = (rentado_str == "si"); 
+                        cout << "Ingrese motor: "; cin >> nuevo_vehiculo.motor; 
+                        cout << "Ingrese precio de renta: "; cin >> nuevo_vehiculo.precio_renta; 
+                        cout << "Ingrese cedula del cliente: "; cin >> nuevo_vehiculo.ced_cliente;
+                        cout << "Ingrese fecha de entrega (d/m/yyyy): "; cin >> nuevo_vehiculo.fecha_de_entrega; 
+                        agregar_fila_nueva_vehiculos(nuevo_vehiculo);
+                        break;
+                    }
+
+                    case 5:{
+                        leer_archivo_completo_vehiculos();
+                        break;
+                    }
+                    case 6:{
+                        cout << "Ingrese el indice del regidtro del vehiculo que desea leer: "; cin >> indice;
+                        leer_datos_especifico_vehiculos(indice);
+                        break;
+                    }
+                    case 7:
+                    break;
+
+                    case 8:
+                    break;
+
+                }
+
+            break;
+
+
+            case 2:
+                opcion_valida = true;
+                int opcion_clientes;
+                mostrarMenuClientes();
+                cin >> opcion_clientes;
+                // Manejar opciones de clientes
+
+                switch(opcion_clientes){
+                    case 1: {
+                        cout << "Ingrese el indice de la fila que desea eliminar: ";
+                        cin >> indice;
+                        borrar_fila_clientes(indice);
+                        break;
+                    }
+
+                    case 2: {
+                        clientes nuevo_cliente;
+                        string activo_str;
+
+                        cout << "Ingrese la fila del cliente que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese los datos nuevos del cliente a modificar: \n";
+                        cout << "Ingrese cedula: "; cin >> nuevo_cliente.cedula;
+                        cin.ignore(); // Ignorar el carácter de nueva línea pendiente
+                        cout << "Ingrese nombre: "; getline(cin, nuevo_cliente.nombre);
+                        cout << "Ingrese apellido: "; getline(cin, nuevo_cliente.apellido);
+                        cout << "Ingrese email: "; cin >> nuevo_cliente.email;
+                        cout << "Ingrese cantidad de vehiculos rentados: "; cin >> nuevo_cliente.cantidad_de_vehiculos;
+                        cin.ignore(); // Ignorar el carácter de nueva línea pendiente
+                        cout << "Ingrese direccion: "; getline(cin, nuevo_cliente.direccion);
+                        cout << "Ingrese activo (si/no): "; cin >> activo_str;
+                        nuevo_cliente.activo = (activo_str == "si");
+
+                        actualizar_fila_completa_clientes(indice, nuevo_cliente);
+                        break;
+                    }
+
+                    case 3: {
+                        cout << "Ingrese la fila del cliente que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese el numero del campo que quiere modificar (1-7): \n";
+                        cout << "1. Cédula\n";
+                        cout << "2. Nombre\n";
+                        cout << "3. Apellido\n";
+                        cout << "4. Email\n";
+                        cout << "5. Cantidad de Vehículos Rentados\n";
+                        cout << "6. Dirección\n";
+                        cout << "7. Activo (si/no)\n";
+                        cout << "Ingrese valor: "; cin >> campo;
+                        cout << "Ingrese el dato actualizado: "; cin >> nuevo_valor;
+                        actualizar_dato_especifico_clientes(indice, campo, nuevo_valor);
+                        break;
+                    }
+                    case 4: {
+                        clientes nuevo_cliente;
+                        string activo_str;
+                        cout << "Ingrese los datos del nuevo cliente: \n";
+                        cout << "Ingrese cedula: "; cin >> nuevo_cliente.cedula;
+                        cin.ignore(); // Ignorar el carácter de nueva línea pendiente
+                        cout << "Ingrese nombre: "; getline(cin, nuevo_cliente.nombre);
+                        cout << "Ingrese apellido: "; getline(cin, nuevo_cliente.apellido);
+                        cout << "Ingrese email: "; cin >> nuevo_cliente.email;
+                        cout << "Ingrese cantidad de vehiculos rentados: "; cin >> nuevo_cliente.cantidad_de_vehiculos;
+                        cin.ignore(); // Ignorar el carácter de nueva línea pendiente
+                        cout << "Ingrese direccion: "; getline(cin, nuevo_cliente.direccion);
+                        cout << "Ingrese activo (si/no): "; cin >> activo_str;
+                        nuevo_cliente.activo = (activo_str == "si");
+                        agregar_fila_nueva_clientes(nuevo_cliente);
+                        break;
+                    }
+
+                    case 5:{
+                        leer_archivo_completo_clientes();
+                        break;
+                    }
+                    case 6:{
+                        cout << "Ingrese el indice del registro del cliente que desea leer: ";
+                        cin >> indice;
+                        leer_datos_especifico_clientes(indice);
+                    }    break;
+
+                    case 7:
+                    break;
+
+                    case 8:
+                    break;
+
+                }
+
+            break;
+
+            case 3:
+                opcion_valida = true;
+                int opcion_repuestos;
+                mostrarMenuRepuestos();
+                cin >> opcion_repuestos;
+                // Manejar opciones de repuestos
+
+                switch(opcion_repuestos){
+                    
+                    case 1: {
+                        cout << "Ingrese el indice de la fila que desea eliminar: ";
+                        cin >> indice;
+                        borrar_fila_repuestos(indice);
+                        break;
+                    }
+
+                    case 2: {
+                        repuestos nuevo_repuesto;
+
+                        cout << "Ingrese la fila del repuesto que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese los datos nuevos del repuesto a modificar: \n";
+                        cout << "Ingrese modelo: "; cin >> nuevo_repuesto.modelo;
+                        cout << "Ingrese marca: "; cin >> nuevo_repuesto.marca;
+                        cout << "Ingrese nombre: "; cin >> nuevo_repuesto.nombre;
+                        cout << "Ingrese modelo del carro: "; cin >> nuevo_repuesto.modelo_carro;
+                        cout << "Ingrese ano del carro: "; cin >> nuevo_repuesto.ano_carro;
+                        cout << "Ingrese precio: "; cin >> nuevo_repuesto.precio;
+                        cout << "Ingrese existencias: "; cin >> nuevo_repuesto.existencias;
+
+                        actualizar_fila_completa_repuestos(indice, nuevo_repuesto);
+                        break;
+                    }
+
+                   case 3: {
+                        cout << "Ingrese la fila del repuesto que quiere modificar: "; cin >> indice;
+                        cout << "Ingrese el numero del campo que quiere modificar (1-7): \n";
+                        cout << "1. Modelo\n";
+                        cout << "2. Marca\n";
+                        cout << "3. Nombre\n";
+                        cout << "4. Modelo del Carro\n";
+                        cout << "5. Año del Carro\n";
+                        cout << "6. Precio\n";
+                        cout << "7. Existencias\n";
+                        cin >> campo;
+                        cout << "Ingrese el nuevo valor: "; cin >> nuevo_valor;
+                        actualizar_dato_especifico_repuestos(indice, campo, nuevo_valor);
+                        break;
+                    }
+
+                    case 4: {
+                        repuestos nuevo_repuesto;
+                        cout << "Ingrese los datos del nuevo repuesto: \n";
+                        cout << "Ingrese modelo: "; cin >> nuevo_repuesto.modelo;
+                        cout << "Ingrese marca: "; cin >> nuevo_repuesto.marca;
+                        cout << "Ingrese nombre: "; cin >> nuevo_repuesto.nombre;
+                        cout << "Ingrese modelo del carro: "; cin >> nuevo_repuesto.modelo_carro;
+                        cout << "Ingrese ano del carro: "; cin >> nuevo_repuesto.ano_carro;
+                        cout << "Ingrese precio: "; cin >> nuevo_repuesto.precio;
+                        cout << "Ingrese existencias: "; cin >> nuevo_repuesto.existencias;
+                        agregar_fila_nueva_repuestos(nuevo_repuesto);
+                        break;
+                    }
+
+                    case 5:{
+                        leer_archivo_completo_repuestos();
+                        break;
+                    }
+
+                    case 6: {
+                        cout << "Ingrese el indice del registro del repuesto que desea leer: ";
+                        cin >> indice;
+                        leer_datos_especifico_repuestos(indice);
+                        break;
+                    }
+
+                    case 7:
+                    break;
+
+                    case 8:
+                    break;
+
+                }
+            break;
+
+            default:
+                cout << "Se introdujo un valor no valido, intente de nuevo." << endl;
+            break;
+        }
+    }
+
 int main(){
     int Archivos_csv, indice, campo;
     string nuevo_valor;
@@ -1217,9 +1507,10 @@ int main(){
             break;
         }
     }
-    const int MAX_VEHICULOS = 100;
-    const int MAX_CLIENTES = 100;
-    const int MAX_REPUESTOS = 100;
+
+    const int MAX_VEHICULOS = 1000;
+    const int MAX_CLIENTES = 1000;
+    const int MAX_REPUESTOS = 1000;
     vehiculos vehiculosArr[MAX_VEHICULOS];
     clientes clientesArr[MAX_CLIENTES];
     repuestos repuestosArr[MAX_REPUESTOS];
@@ -1230,6 +1521,6 @@ int main(){
     leerCSVRepuestos("bin/repuestos.csv", repuestosArr, totalRepuestos, MAX_REPUESTOS);
 
     realizarConsultas(vehiculosArr, totalVehiculos, clientesArr, totalClientes, repuestosArr, totalRepuestos);
-
+    
     return 0;
 }
