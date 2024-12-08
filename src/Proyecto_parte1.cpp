@@ -3,7 +3,14 @@
 #include<cmath>
 #include<sstream>
 #include<string>
-
+#include "./View/Interfaz.cpp"
+#include "./Controller/funcionesVehiculos.cpp"
+#include "./Controller/funcionesClientes.cpp"
+#include "./Controller/funcionesRepuestos.cpp"
+#include "./Controller/funcionConfirmar.cpp"
+#include "./Models/Vehiculo.cpp"
+#include "./Models/Cliente.cpp"
+#include "./Models/Repuesto.cpp"
 using namespace std;
 
 struct vehiculos {
