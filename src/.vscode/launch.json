@@ -8,10 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-
-      "cwd": "c:/Users/laura/OneDrive/Escritorio/Proyecto_parte1/Proyecto_parte_1/src",
-      "program": "c:/Users/laura/OneDrive/Escritorio/Proyecto_parte1/Proyecto_parte_1/src/build/Debug/outDebug",
-      
+      "cwd": "c:/Users/laura/OneDrive/Escritorio/proyect_p1/Proyecto_parte_1/src",
+      "program": "c:/Users/laura/OneDrive/Escritorio/proyect_p1/Proyecto_parte_1/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
